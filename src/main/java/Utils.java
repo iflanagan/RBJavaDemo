@@ -3,7 +3,11 @@ import com.rollbar.notifier.config.Config;
 
 import static com.rollbar.notifier.config.ConfigBuilder.withAccessToken;
 
-// Ian Flanagan Rollbar 2020
+
+/*
+
+Ian Flanagan Rollbar 2020
+ */
 
 public class Utils {
 

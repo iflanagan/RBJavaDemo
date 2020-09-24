@@ -7,20 +7,29 @@ import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import static com.rollbar.notifier.config.ConfigBuilder.withAccessToken;
 
+/*
+
+Ian Flanagan Rollbar 2020
+ */
+
 public class Main {
 
 private static Rollbar rollbar;
 private static String mycount;
+public static final String myAccessToken = System.getenv("ROLLBAR_ACCESS_TOKEN");
 
     public static void main(String[] args) throws Exception {
 
-       rollbar = Utils.createRBInstance(MyConfiguration.myAccessToken,MyConfiguration.environment, MyConfiguration.version);
+
+    //   rollbar = Utils.createRBInstance(MyConfiguration.myAccessToken,MyConfiguration.environment, MyConfiguration.version);
+        rollbar = Utils.createRBInstance(myAccessToken,MyConfiguration.environment, MyConfiguration.version);
        rollbar.handleUncaughtErrors();
 
       //  UnhandledExceptionExample();
-       handledExceptionExample();
+     //  handledExceptionExample();
+        AnotherException();
 
-        mycount = readFile("/Users/ianflanagan/Workspace/Demos/JavaDemo/count");
+       /* mycount = readFile("/Users/ianflanagan/Workspace/Demos/JavaDemo/count");
         System.out.println("Count is: " +mycount);
         delay(5000);
 
@@ -44,7 +53,7 @@ private static String mycount;
             System.out.println("\nIn finally portion, close out the rollbar instance");
             writeFile("/Users/ianflanagan/Workspace/Demos/JavaDemo/count",mycount);
             rollbar.close(true);
-        }
+        }*/
 
     }
     public static double handledExceptionExample()
@@ -74,6 +83,21 @@ private static String mycount;
 
         return inputedvalue;
 
+    }
+
+    public static void AnotherException() {
+
+      //  throw mult exceptions to show up in Rollbar
+
+        for (int i=0; i<= 50; i++){
+
+            rollbar.info(new RuntimeException(), "We threw an error" +i+ " in the code");
+            rollbar.warning(new RuntimeException());
+            rollbar.log(new IllegalThreadStateException());
+            rollbar.critical(new InterruptedException()," Critical Error" +i+ " in the code");
+          //  throw new RuntimeException();
+
+        }
     }
 
     public static double UnhandledExceptionExample()
